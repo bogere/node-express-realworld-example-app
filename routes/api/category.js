@@ -56,10 +56,46 @@ router.route('/')
 })
 
 //Editing the category
-.put(auth.required, function(req,res,next){
-   
-})
+router.put('/:category', auth.required, function(req, res, next) {
+    User.findById(req.payload.id).then(function(user){
+      if(req.article.author._id.toString() === req.payload.id.toString()){
+        if(typeof req.body.category.title !== 'undefined'){
+          req.category.title = req.body.category.title;
+        }
+  
+        if(typeof req.body.category.description !== 'undefined'){
+          req.category.description = req.body.category.description;
+        }
+  
+        if(typeof req.body.category.parentCategory !== 'undefined'){
+          req.category.body = req.body.category.parentCategory;
+        }
+  
+        req.category.save(function(err,updatedCategory){
+           res.json({"message": "successful updated the category"})
+        })
+      } else {
+        return res.sendStatus(403);
+      }
+    });
+  });
+  
 
+  //Deleting the category..
+router.delete('/:category', auth.required, function(req, res, next) {
+    User.findById(req.payload.id).then(function(user){
+      if (!user) { return res.sendStatus(401); }
+  
+      if(req.category.author._id.toString() === req.payload.id.toString()){
+        return req.category.remove().then(function(){
+          return res.sendStatus(204);
+        });
+      } else {
+        return res.sendStatus(403);
+      }
+    }).catch(next);
+  });
+  
 
 
 

@@ -40,6 +40,7 @@ router.put('/user', auth.required, function(req, res, next){
 });
 
 router.post('/users/login', function(req, res, next){
+  console.log('hey sth',req.body.email)
   if(!req.body.user.email){
     return res.status(422).json({errors: {email: "can't be blank"}});
   }

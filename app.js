@@ -17,9 +17,11 @@ var app = express();
 app.use(cors());
 
 // Normal express config defaults
-app.use(require('morgan')('dev'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(require('morgan')('dev')); //////
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
 
 app.use(require('method-override')());
 app.use(express.static(__dirname + '/public'));
@@ -33,7 +35,8 @@ if (!isProduction) {
 if(isProduction){
   mongoose.connect(process.env.MONGODB_URI);
 } else {
-  mongoose.connect('mongodb://localhost/conduit');
+  //mongoose.connect('mongodb://localhost/conduit');
+  mongoose.connect('mongodb://127.0.0.1:27017/conduit')
   mongoose.set('debug', true);
 }
 
