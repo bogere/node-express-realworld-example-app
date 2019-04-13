@@ -17,13 +17,16 @@ var app = express();
 app.use(cors());
 
 // Normal express config defaults
-app.use(require('morgan')('dev')); //////
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(require('morgan')('dev'));
+// parse application/x-www-form-urlencoded--> raw format
+app.use(bodyParser.urlencoded({ extended: false }));
+//parse application/json
 app.use(bodyParser.json());
 
 
 
-app.use(require('method-override')());
+
+//app.use(require('method-override')());
 app.use(express.static(__dirname + '/public'));
 
 app.use(session({ secret: 'conduit', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false  }));
@@ -46,7 +49,8 @@ require('./models/Comment');
 require('./models/Category')
 require('./config/passport');
 
-app.use(require('./routes'));
+//app.use(require('./routes'));
+app.use(require('./routes/card'))
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
