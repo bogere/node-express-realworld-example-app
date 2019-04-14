@@ -47,6 +47,59 @@ In `routes/api/index.js`, we define a error-handling middleware for handling Mon
 Requests are authenticated using the `Authorization` header with a valid JWT. We define two express middlewares in `routes/auth.js` that can be used to authenticate requests. The `required` middleware configures the `express-jwt` middleware using our application's secret and will return a 401 status code if the request cannot be authenticated. The payload of the JWT can then be accessed from `req.payload` in the endpoint. The `optional` middleware configures the `express-jwt` in the same way as `required`, but will *not* return a 401 status code if the request cannot be authenticated.
 
 
+##Design Patterns
+What are design patterns?
+A design pattern is a general, reusable solution to a commonly occurring problem.
+1.Singleton..
+ The singleton patterns restrict the number of instantiations of a "class" to one. No matter how many times the  `require('./auth')` or `require('express')` statement is used in nodejs application, it is only  instantiated once(singleton pattern)
+//auth.js
+`var auth = {
+  required: jwt({
+    secret: secret,
+    userProperty: 'payload',
+    getToken: getTokenFromHeader
+  }),
+  optional: jwt({
+    secret: secret,
+    userProperty: 'payload',
+    credentialsRequired: false,
+    getToken: getTokenFromHeader
+  })
+};
+
+module.exports = auth;`
+//category.js
+`var router = require('express').Router(),
+    mongoose = require('mongoose')
+    Category = mongoose.model('Category'),
+     User = mongoose.model('User'),
+     auth = require('../auth'); `
+
+    //API End points for adding, deleting categories.
+// Preload category objects on routes with ':category'
+router.param('category', function(req, res, next) { //missing statements}
+
+  2. middlewares/pipelines
+  Middleware--> the output of one unit/function is the input for the next. Express server has many middlewares that help in error handling , logging the request and responses.
+  In this case they take in request object as input, work on it via the middleware and give 
+  the output in form of response object
+  // Normal express config defaults (configuring the middleware)
+ `app.use(cors());
+   app.use(require('morgan')('dev'));
+// parse application/x-www-form-urlencoded--> raw format
+   app.use(bodyParser.urlencoded({ extended: false }));
+  //parse application/json
+  app.use(bodyParser.json());
+
+app.use(express.static(__dirname + '/public'));
+
+app.use(session({ secret: 'conduit', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false  }));
+
+if (!isProduction) {
+  app.use(errorhandler());
+}
+`
+
 <br />
 
 [![Brought to you by Thinkster](https://raw.githubusercontent.com/gothinkster/realworld/master/media/end.png)](https://thinkster.io)
