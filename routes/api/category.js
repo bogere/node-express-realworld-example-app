@@ -38,12 +38,13 @@ router.route('/')
     User.findById(req.payload.id).then(function(user){
         if (!user) { return res.sendStatus(401); }
     
-        var category = new Category({
+        /*var category = new Category({
            title: req.body.category,
            description: req.body.description,
            parentCategory: req.body.parentCategory,
            author: user 
-        })
+        })*/
+        var category = new Category(req.body.category)
     
           category.save(function(err,savedCategory){
              if(err){

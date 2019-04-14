@@ -1895,6 +1895,146 @@
         },
         "response": []
       }]
+    },
+    {
+      "name": "Category",
+      "description": "",
+      "item": [{
+          "name": "All Categories for Articles",
+          "event": [{
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var is200Response = responseCode.code === 200",
+                "",
+                "tests['Response code is 200 OK'] = is200Response;",
+                "",
+                "if(is200Response){",
+                "    var responseJSON = JSON.parse(responseBody);",
+                "",
+                "    tests['Response contains \"categories\" property'] = responseJSON.hasOwnProperty('categories');",
+                "",
+                "    if(responseJSON.categories.length){",
+                "        var category = responseJSON.categories[0];",
+                "",
+                " tests['Category has \"title\" property'] = category.hasOwnProperty('title');",
+                "tests['category has \"description\" property'] = category.hasOwnProperty('description');",
+                "tests['Category has \"parentCategory\" property'] = category.hasOwnProperty('parentCategory')",
+                " tests['category has \"createdAt\" property'] = category.hasOwnProperty('createdAt');",
+                "tests['\"createdAt\" property is an ISO 8601 timestamp'] = new Date(category.createdAt).toISOString() === category.createdAt;",
+                "tests['Category has \"author\" property'] = comment.hasOwnProperty('author');",
+                " }",
+                "}",
+                ""
+              ]
+            }
+          }],
+          "request": {
+            "url": "{{apiUrl}}/category",
+            "method": "GET",
+            "header": [{
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": ""
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest",
+                "description": ""
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "description": ""
+              }
+            ],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category for Article",
+          "event": [{
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var responseJSON = JSON.parse(responseBody);",
+                "",
+                "tests['Response contains \"category\" property'] = responseJSON.hasOwnProperty('category');",
+                "",
+                "var category = responseJSON.category || {};",
+                "",
+            "tests['Category has \"title\" property'] = category.hasOwnProperty('title');",
+            "tests['category has \"description\" property'] = category.hasOwnProperty('description');",
+            "tests['Category has \"parentCategory\" property'] = category.hasOwnProperty('parentCategory');",
+            "tests['category has \"createdAt\" property'] = category.hasOwnProperty('createdAt');",
+            "tests['\"createdAt\" property is an ISO 8601 timestamp'] = new Date(category.createdAt).toISOString() === category.createdAt;",
+                "        tests['Category has \"author\" property'] = category.hasOwnProperty('author');",
+                "    }",
+                "}",
+                
+                ""
+              ]
+            }
+          }],
+          "request": {
+            "url": "{{apiUrl}}/category",
+            "method": "POST",
+            "header": [{
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": ""
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest",
+                "description": ""
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "description": ""
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"category\":{\"title\":\"technology\", \"description\":\"best tech in Uganda\",\"parentCategory\":\"null\",\"author\":\"goldsoft\"}}"
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Category for Article",
+          "request": {
+            "url": "{{apiUrl}}/category",
+            "method": "DELETE",
+            "header": [{
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": ""
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest",
+                "description": ""
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}",
+                "description": ""
+              }
+            ],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        }
+      ]
     }
+
   ]
 }

@@ -49,8 +49,8 @@ require('./models/Comment');
 require('./models/Category')
 require('./config/passport');
 
-//app.use(require('./routes'));
-app.use(require('./routes/card'))
+app.use(require('./routes'));
+//app.use(require('./routes/card'))
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
