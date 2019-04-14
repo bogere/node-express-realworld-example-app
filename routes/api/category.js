@@ -50,7 +50,9 @@ router.route('/')
              if(err){
               return next(err)
              }
-             return res.status(201).send({"message": "successful created..."})
+             console.log('hey added',savedCategory)
+             //return res.status(201).send({"message": "successful created..."})
+             return res.json({category: savedCategory})
           })
     
       }).catch(next);   
