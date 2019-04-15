@@ -66,7 +66,7 @@ Requests are authenticated using the `Authorization` header with a valid JWT. We
 ## Design Patterns
 What are design patterns?
 A design pattern is a general, reusable solution to a commonly occurring problem.
- # Singleton..
+ ### Singleton..
  The singleton patterns restrict the number of instantiations of a "class" to one. No matter how many times the  `require('./auth')` or `require('express')` statement is used in nodejs application, it is only  instantiated once(singleton pattern)
 //auth.js
 ```js
@@ -98,7 +98,7 @@ var router = require('express').Router(),
 router.param('category', function(req, res, next) { //missing statements}
 ```
 
-  # middlewares/pipelines
+  ### middlewares/pipelines
   Middleware--> the output of one unit/function is the input for the next. Express server has many middlewares that help in error handling , logging the request and responses.
   In this case they take in request object as input, work on it via the middleware and give 
   the output in form of response object
@@ -120,7 +120,7 @@ if (!isProduction) {
 }
 ```
 
-# Factory pattern
+### Factory pattern
 Factory is a creational design pattern allowing us to abstract away object creation implementation details from the outside world. Express does this by only exporting the factory.
 ```js
 /**
