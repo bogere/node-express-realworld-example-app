@@ -100,6 +100,25 @@ if (!isProduction) {
 }
 `
 
+3.Factory pattern
+Factory is a creational design pattern allowing us to abstract away object creation implementation details from the outside world. Express does this by only exporting the factory.
+/**
+ * Expose `createApplication()`.
+ */
+exports = module.exports = createApplication;
+function createApplication() {
+  var app = function(req, res, next) {
+    app.handle(req, res, next);
+  };
+  ...
+  return app;
+}
+//And, using the factory to create an express application is as simple as this:
+import express from 'express';
+..
+const app = express();
+
+
 <br />
 
 [![Brought to you by Thinkster](https://raw.githubusercontent.com/gothinkster/realworld/master/media/end.png)](https://thinkster.io)

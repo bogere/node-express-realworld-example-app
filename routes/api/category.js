@@ -2,7 +2,7 @@
 var router = require('express').Router(),
     mongoose = require('mongoose')
     Category = mongoose.model('Category'),
-    User = mongoose.model('User'),
+     User = mongoose.model('User'),
      auth = require('../auth');
 
     //API End points for adding, deleting categories.
