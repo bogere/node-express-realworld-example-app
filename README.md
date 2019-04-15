@@ -63,10 +63,10 @@ In `routes/api/index.js`, we define a error-handling middleware for handling Mon
 Requests are authenticated using the `Authorization` header with a valid JWT. We define two express middlewares in `routes/auth.js` that can be used to authenticate requests. The `required` middleware configures the `express-jwt` middleware using our application's secret and will return a 401 status code if the request cannot be authenticated. The payload of the JWT can then be accessed from `req.payload` in the endpoint. The `optional` middleware configures the `express-jwt` in the same way as `required`, but will *not* return a 401 status code if the request cannot be authenticated.
 
 
-##Design Patterns
+## Design Patterns
 What are design patterns?
 A design pattern is a general, reusable solution to a commonly occurring problem.
-1.Singleton..
+ # Singleton..
  The singleton patterns restrict the number of instantiations of a "class" to one. No matter how many times the  `require('./auth')` or `require('express')` statement is used in nodejs application, it is only  instantiated once(singleton pattern)
 //auth.js
 ```js
@@ -98,7 +98,7 @@ var router = require('express').Router(),
 router.param('category', function(req, res, next) { //missing statements}
 ```
 
-  2. middlewares/pipelines
+  # middlewares/pipelines
   Middleware--> the output of one unit/function is the input for the next. Express server has many middlewares that help in error handling , logging the request and responses.
   In this case they take in request object as input, work on it via the middleware and give 
   the output in form of response object
@@ -120,7 +120,7 @@ if (!isProduction) {
 }
 ```
 
-3.Factory pattern
+# Factory pattern
 Factory is a creational design pattern allowing us to abstract away object creation implementation details from the outside world. Express does this by only exporting the factory.
 ```js
 /**
@@ -142,7 +142,7 @@ const app = express();
 ```
 <br />
 
-##Is the codebase maintainable, unit-testable, and scalable?
+## Is the codebase maintainable, unit-testable, and scalable?
 -The codebase is `maintainable` because the project files are well structured and follow most  express-mongodb boilerplate structure , thus easier to add the data models to the models directory, configuration values such as environment variables and database access ports via the config directory. Then the routes directory hold the api directory that defines the API structure for the application
 -`Difficulty in performing unit tests`  because most api routes are not written in form of functions.
 -`Not scalable`  because it lacks the caching capabilities and nodejs application still use server side sessions instead of only the tokens fro authorisation purposes. session method is not scalable on the server side
