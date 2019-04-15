@@ -16,8 +16,13 @@ To get the Node server running locally:
 - `npm install` to install all required dependencies
 - Install MongoDB Community Edition ([instructions](https://docs.mongodb.com/manual/installation/#tutorials)) and run it by executing `mongod`
 - `npm run dev` to start the local server
+- `npm test ` to run the tests including testing all the category API.
 
-Alternately, to quickly try out this repo in the cloud, you can [![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/remix/realworld)
+#Usage
+After running the above command `npm run dev` to start the local development server, then you can visit the localhost:3000/api/articles to view the articles. 
+For the categories, you shall use postman tool or curl script to test the API requests. remember some API  routes require authentication before you can access them.
+Easiest way is to run `npm test` and get the details of teh mock up API requests that you can use to test in postman tool or curl script.
+
 
 # Code Overview
 
@@ -53,7 +58,7 @@ A design pattern is a general, reusable solution to a commonly occurring problem
 1.Singleton..
  The singleton patterns restrict the number of instantiations of a "class" to one. No matter how many times the  `require('./auth')` or `require('express')` statement is used in nodejs application, it is only  instantiated once(singleton pattern)
 //auth.js
-`var auth = {
+<pre><code>var auth = {
   required: jwt({
     secret: secret,
     userProperty: 'payload',
@@ -78,13 +83,16 @@ module.exports = auth;`
     //API End points for adding, deleting categories.
 // Preload category objects on routes with ':category'
 router.param('category', function(req, res, next) { //missing statements}
+</code></pre>
+
 
   2. middlewares/pipelines
   Middleware--> the output of one unit/function is the input for the next. Express server has many middlewares that help in error handling , logging the request and responses.
   In this case they take in request object as input, work on it via the middleware and give 
   the output in form of response object
   // Normal express config defaults (configuring the middleware)
- `app.use(cors());
+ <pre><code>
+  app.use(cors());
    app.use(require('morgan')('dev'));
 // parse application/x-www-form-urlencoded--> raw format
    app.use(bodyParser.urlencoded({ extended: false }));
@@ -98,10 +106,12 @@ app.use(session({ secret: 'conduit', cookie: { maxAge: 60000 }, resave: false, s
 if (!isProduction) {
   app.use(errorhandler());
 }
+</code></pre>
 `
 
 3.Factory pattern
 Factory is a creational design pattern allowing us to abstract away object creation implementation details from the outside world. Express does this by only exporting the factory.
+<pre><code>
 /**
  * Expose `createApplication()`.
  */
@@ -113,12 +123,20 @@ function createApplication() {
   ...
   return app;
 }
+</code></pre>
 //And, using the factory to create an express application is as simple as this:
 import express from 'express';
 ..
 const app = express();
 
-
 <br />
+
+##Is the codebase maintainable, unit-testable, and scalable?
+-The codebase is `maintainable` because the project files are well structured and follow most  express-mongodb boilerplate structure , thus easier to add the data models to the models directory, configuration values such as environment variables and database access ports via the config directory. Then the routes directory hold the api directory that defines the API structure for the application
+-`Difficulty in performing unit tests`  because most api routes are not written in form of functions.
+-`Not scalable`  because it lacks the caching capabilities and nodejs application still use server side sessions instead of only the tokens fro authorisation purposes. session method is not scalable on the server side
+
+
+
 
 [![Brought to you by Thinkster](https://raw.githubusercontent.com/gothinkster/realworld/master/media/end.png)](https://thinkster.io)
