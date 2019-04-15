@@ -22,7 +22,18 @@ To get the Node server running locally:
 After running the above command `npm run dev` to start the local development server, then you can visit the localhost:3000/api/articles to view the articles. 
 For the categories, you shall use postman tool or curl script to test the API requests. remember some API  routes require authentication before you can access them.
 Easiest way is to run `npm test` and get the details of teh mock up API requests that you can use to test in postman tool or curl script.
+-fetching all categories.
+ Category
+└ All Categories for Articles
+  GET http://localhost:3000/api/category 
+Create Category for Article
+  POST http://localhost:3000/api/category
+  formData ==> title | description | parentCategory | author
+Update Category for Article
+PUT http://localhost:3000/api/category 
+ formData ==> title | description | parentCategory
 
+     
 
 # Code Overview
 
@@ -58,7 +69,8 @@ A design pattern is a general, reusable solution to a commonly occurring problem
 1.Singleton..
  The singleton patterns restrict the number of instantiations of a "class" to one. No matter how many times the  `require('./auth')` or `require('express')` statement is used in nodejs application, it is only  instantiated once(singleton pattern)
 //auth.js
-<pre><code>var auth = {
+```js
+var auth = {
   required: jwt({
     secret: secret,
     userProperty: 'payload',
@@ -72,26 +84,26 @@ A design pattern is a general, reusable solution to a commonly occurring problem
   })
 };
 
-module.exports = auth;`
+module.exports = auth; ```
 //category.js
-`var router = require('express').Router(),
+```js
+var router = require('express').Router(),
     mongoose = require('mongoose')
     Category = mongoose.model('Category'),
      User = mongoose.model('User'),
-     auth = require('../auth'); `
+     auth = require('../auth'); 
 
     //API End points for adding, deleting categories.
 // Preload category objects on routes with ':category'
 router.param('category', function(req, res, next) { //missing statements}
-</code></pre>
-
+```
 
   2. middlewares/pipelines
   Middleware--> the output of one unit/function is the input for the next. Express server has many middlewares that help in error handling , logging the request and responses.
   In this case they take in request object as input, work on it via the middleware and give 
   the output in form of response object
   // Normal express config defaults (configuring the middleware)
- <pre><code>
+ ```js
   app.use(cors());
    app.use(require('morgan')('dev'));
 // parse application/x-www-form-urlencoded--> raw format
@@ -106,12 +118,11 @@ app.use(session({ secret: 'conduit', cookie: { maxAge: 60000 }, resave: false, s
 if (!isProduction) {
   app.use(errorhandler());
 }
-</code></pre>
-`
+```
 
 3.Factory pattern
 Factory is a creational design pattern allowing us to abstract away object creation implementation details from the outside world. Express does this by only exporting the factory.
-<pre><code>
+```js
 /**
  * Expose `createApplication()`.
  */
@@ -123,12 +134,12 @@ function createApplication() {
   ...
   return app;
 }
-</code></pre>
+
 //And, using the factory to create an express application is as simple as this:
 import express from 'express';
 ..
 const app = express();
-
+```
 <br />
 
 ##Is the codebase maintainable, unit-testable, and scalable?
