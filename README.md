@@ -28,10 +28,10 @@ Easiest way is to run `npm test` and get the details of teh mock up API requests
   GET http://localhost:3000/api/category 
 Create Category for Article
   POST http://localhost:3000/api/category
-  formData ==> title | description | parentCategory | author
+  formData ==> category.title | category.description |    category.parentCategory | category.author
 Update Category for Article
 PUT http://localhost:3000/api/category 
- formData ==> title | description | parentCategory
+ formData ==> category.title | category.description |    category.parentCategory | category.author
 
      
 
